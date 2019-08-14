@@ -3,15 +3,15 @@ import {
     FlatList, 
     ImageBackground, 
     StyleSheet, 
-    Text,
+    TouchableOpacity,
     View 
 } from 'react-native';
 import { Context } from '../context/BlogContext';
-import { Feather } from '@expo/vector-icons';
 import { Button, CardSection, PostCard } from '../common';
 
-const IndexScreen = () => {
+const IndexScreen = ( props ) => {
     const { state, addBlogPost, deleteBlogPost } = useContext( Context );
+    const { navigation } = props;
 
 
     return (
@@ -34,7 +34,11 @@ const IndexScreen = () => {
                     keyExtractor={ blogPost => blogPost.id }
                     renderItem={ ({ item }) => {
                         return (
-                            <PostCard item={ item } deleteBlogPost={ deleteBlogPost }/>
+                            <TouchableOpacity
+                                onPress={ () => navigation.navigate('Show', { id: item.id }) }
+                            >
+                                <PostCard item={ item } deleteBlogPost={ deleteBlogPost }/>
+                            </TouchableOpacity>
                         );
                     } }
                 />
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default IndexScreen;
+export { IndexScreen };
 
 /** 
  * 
