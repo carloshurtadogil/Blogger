@@ -1,9 +1,17 @@
 import React, { useContext } from 'react';
-import { FlatList, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import BlogContext from '../context/BlogContext';
+import { 
+    FlatList, 
+    ImageBackground, 
+    StyleSheet, 
+    Text,
+    View 
+} from 'react-native';
+import { Context } from '../context/BlogContext';
+import { Feather } from '@expo/vector-icons';
+import { Button, CardSection, PostCard } from '../common';
 
 const IndexScreen = () => {
-    const blogPosts= useContext( BlogContext );
+    const { state, addBlogPost, deleteBlogPost } = useContext( Context );
 
 
     return (
@@ -11,14 +19,23 @@ const IndexScreen = () => {
             source={ require( '../../assets/images/forest.jpg' ) }
             style={styles.container}
         >
-            <View style={ styles.inner }>
-                <Text>Index Screen</Text>
-
+            <View style={ styles.container }>
+                <CardSection>
+                    <Button 
+                        onPress={ addBlogPost }
+                        style={ styles.button }
+                    >
+                        Add Post
+                    </Button>
+                </CardSection>
+                
                 <FlatList
-                    data={ blogPosts }
-                    keyExtractor={ blogPost => blogPost.title }
+                    data={ state }
+                    keyExtractor={ blogPost => blogPost.id }
                     renderItem={ ({ item }) => {
-                        return <Text>{ item.title }</Text>;
+                        return (
+                            <PostCard item={ item } deleteBlogPost={ deleteBlogPost }/>
+                        );
                     } }
                 />
             </View>
@@ -27,11 +44,16 @@ const IndexScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    button: {
+        margin: 5,
+        height: 200
+    },
     container: {
         flex: 1
     },
     inner: {
-        backgroundColor: 'rgba(255, 255, 255, .7)'
+        backgroundColor: 'rgba(255, 255, 255, .9)',
+        margin: 15
     }
 });
 
