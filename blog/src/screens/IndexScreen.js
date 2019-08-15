@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Context } from '../context/BlogContext';
 import { Button, CardSection, PostCard } from '../common';
+import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ( props ) => {
     const { state, addBlogPost, deleteBlogPost } = useContext( Context );
@@ -47,6 +48,18 @@ const IndexScreen = ( props ) => {
     );
 };
 
+IndexScreen.navigationOptions = ({ navigation }) => {
+    return {
+        headerRight: (
+            <TouchableOpacity
+                onPress={ () => navigation.navigate('Create') }
+            >
+                <Feather name="plus" size={ 30 } style={ styles.navigationButton }/>
+            </TouchableOpacity>
+        )
+    };
+};
+
 const styles = StyleSheet.create({
     button: {
         margin: 5,
@@ -58,6 +71,9 @@ const styles = StyleSheet.create({
     inner: {
         backgroundColor: 'rgba(255, 255, 255, .9)',
         margin: 15
+    },
+    navigationButton: {
+        marginRight: 10
     }
 });
 
