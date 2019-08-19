@@ -4,13 +4,18 @@ import { Context } from '../context/BlogContext';
 import { Button, CardSection } from '../common';
 import BackgroundImage from '../../assets/images/palm.jpg';
 
-const CreateScreen = ({ navigation }) => {
+const EditScreen = ({ navigation }) => {
     const { cardSectionStyle, textInputStyle, titleStyle } = styles;
 
-    const [ title, setTitle ] = useState('');
-    const [ content, setContent ] = useState('');
-    const { addBlogPost } = useContext( Context );
+    const { state } = useContext( Context );
 
+    const blogPost = state.find( 
+        (blogPost) => blogPost.id === navigation.getParam('id')
+    );
+
+    const [ title, setTitle ] = useState( blogPost.title );
+    const [ content, setContent ] = useState( blogPost.content );
+    const { addBlogPost } = useContext( Context );
 
     return (
         <ImageBackground 
@@ -18,37 +23,33 @@ const CreateScreen = ({ navigation }) => {
             style={styles.container}
         >
             <View>
-                <Text style={ titleStyle }>Enter Title: </Text>
+                <Text style={ titleStyle }>Edit Title: </Text>
 
                 <TextInput 
                     style={ textInputStyle }
                     value={ title }
-                    onChangeText={ ( text ) => setTitle( text ) }
+                    onChangeText={ ( newTitle ) => setTitle( newTitle ) }
                 />
 
-                <Text 
-                    style={ titleStyle }
-                >
-                    Enter Content:
-                </Text>
+                <Text style={ titleStyle }>Enter Content:</Text>
 
                 <TextInput 
                     style={ textInputStyle }
                     value={ content }
-                    onChangeText={ ( text ) => setContent( text ) }
+                    onChangeText={ ( newContent ) => setContent( newContent ) }
                     multiline = { true }
                     numberOfLines={ 6 }
                 />
 
                 <CardSection style={ cardSectionStyle }>
                     <Button 
-                        onPress={ () => {
-                            addBlogPost( title, content, () => {
-                                navigation.navigate('Index');
-                            });
-                        } }
+                        //onPress={ () => {
+                        //    addBlogPost( title, content, () => {
+                        //       navigation.navigate('Index');
+                        //    });
+                        //} }
                     >
-                        Add Blog Post
+                        Save
                     </Button>
                 </CardSection>
             </View>
@@ -56,9 +57,9 @@ const CreateScreen = ({ navigation }) => {
     );
 };
 
-CreateScreen.navigationOptions = () => {
+EditScreen.navigationOptions = () => {
     return {
-        title: 'Create'
+        title: 'Edit'
     };
 };
 
@@ -91,4 +92,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export { CreateScreen };
+export { EditScreen };

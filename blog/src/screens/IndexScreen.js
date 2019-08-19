@@ -21,15 +21,6 @@ const IndexScreen = ( props ) => {
             style={styles.container}
         >
             <View style={ styles.container }>
-                <CardSection>
-                    <Button 
-                        onPress={ addBlogPost }
-                        style={ styles.button }
-                    >
-                        Add Post
-                    </Button>
-                </CardSection>
-                
                 <FlatList
                     data={ state }
                     keyExtractor={ blogPost => blogPost.id }
