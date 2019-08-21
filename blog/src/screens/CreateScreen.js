@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
-import { ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ImageBackground, StyleSheet} from 'react-native';
 import { Context } from '../context/BlogContext';
-import { Button, CardSection } from '../common';
-import BackgroundImage from '../../assets/images/palm.jpg';
 import { BlogPostForm } from '../components';
 
 const CreateScreen = ({ navigation }) => {
@@ -10,7 +8,11 @@ const CreateScreen = ({ navigation }) => {
 
 
     return (
-        <BlogPostForm />
+        <BlogPostForm 
+            onSubmit={ ( title, content ) => {
+                addBlogPost( title, content, () => navigation.navigate('Index') );
+            } }
+        />
     );
 };
 

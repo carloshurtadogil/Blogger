@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button, CardSection } from '../common';
 
-const BlogPostForm = () => {
+const BlogPostForm = ( props ) => {
+    const { initialValues, onSubmit } = props;
     const { cardSectionStyle, textInputStyle, titleStyle } = styles;
 
-    const [ title, setTitle ] = useState('');
-    const [ content, setContent ] = useState('');
+    const [ title, setTitle ] = useState( initialValues.title );
+    const [ content, setContent ] = useState( initialValues.content );
 
     return (
         <ImageBackground 
@@ -38,7 +39,7 @@ const BlogPostForm = () => {
 
                 <CardSection style={ cardSectionStyle }>
                     <Button 
-                        onPress={ () => { } }
+                        onPress={ () => onSubmit( title, content ) }
                     >
                         Save Blog Post
                     </Button>
@@ -46,6 +47,13 @@ const BlogPostForm = () => {
             </View>
         </ImageBackground>
     );
+};
+
+BlogPostForm.defaultProps = {
+    initialValues: {
+        title: '',
+        content: ''
+    }
 };
 
 const styles = StyleSheet.create({
