@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { 
     FlatList, 
     ImageBackground, 
@@ -11,9 +11,20 @@ import { Button, CardSection, PostCard } from '../common';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ( props ) => {
-    const { state, addBlogPost, deleteBlogPost } = useContext( Context );
+    const { state, addBlogPost, deleteBlogPost, getBlogPosts } = useContext( Context );
     const { navigation } = props;
 
+    useEffect( () => {
+        getBlogPosts();
+
+        const listener = navigation.addListener( 'didFocus', () => {
+            getBlogPosts();
+        } );
+
+        return () => {
+            listener.remove();
+        };
+    }, [] );
 
     return (
         <ImageBackground 
